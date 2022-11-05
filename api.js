@@ -82,7 +82,10 @@ form.addEventListener('submit', (event) => {
             }
         }
 
+<<<<<<< HEAD
         
+=======
+>>>>>>> dd9762049a5d8321ab5182b3d607781ee68bdec0
         function sortFunctionA(a, b) {
             if (a[0] === b[0]) {
                 return 0;

@@ -1,7 +1,13 @@
 .container {
     display: flex;
-    flex-direction: ;
+    flex-direction: column;
     align-items: center;
+}
+
+.inner-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 #logo {
@@ -9,6 +15,7 @@
     background: url(zotprof.png);
     height: 6.8%;
     width: 6.8%;
+    padding: 10px;
 }
 
 body{
@@ -23,19 +30,22 @@ body{
     font-weight: 400;
     font-size: 36px;
     line-height: 44px;
-color: #000000;
+    color: #000000;
 }
 
 #deptselect {
+    display: flex;
     height: 11.6%;
     width: 24%;
     background: #EDF2F7;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
+    gap: 10px;
+    margin-right: 20px;
 }
 
 #courseNum {
-    width: 32.3%;
+    width: 40%;
     height: 5.8%;
 }
 
@@ -49,6 +59,8 @@ color: #000000;
     text-align: center;
 }
 
-.btn {
-    
+#deptselect {
+    width: 15%;
+    text-align: left;
+    background: #EDF2F7;
 }
