@@ -12,12 +12,12 @@ form.addEventListener('submit', (event) => {
         output = `${output}${entry[0]}=${entry[1]}\r`;
         type_sort = entry[1]
     }
-    console.log(type_sort)
 
 
-
-    const departmentN = departmentName.value;
+    const departmentN = encodeURIComponent(departmentName.value);
     const courseN = courseNumber.value;
+    console.log(courseN)
+    console.log(departmentN)
     const baseurl = 'https://api.peterportal.org/rest/v0/grades/raw'
     const resources = "?department=" + departmentN + "&number=" + courseN
     const entireurl = baseurl + resources
@@ -27,10 +27,11 @@ form.addEventListener('submit', (event) => {
         let data = await response.json()
         return data;
     }
+    
 
     getUsers().then(data => {
-
-        var grade_rates = []
+        console.log(data)
+        var grade_rates = {}
         /* Run through the data and sort */
         for(let i = 0; i < data.length; i++){
             /* A Rate */
@@ -40,38 +41,62 @@ form.addEventListener('submit', (event) => {
             /* Passing Rate */
             let passingTotal = data[i].gradeACount + data[i].gradeBCount + data[i].gradeCCount
             let passingPercent = passingTotal / total
-
-            grade_rates.push([percentageATotal, passingPercent, data[i]])
+            if(!(data[i].instructor in grade_rates)){
+                
+                grade_rates[data[i].instructor] = [percentageATotal, passingPercent, 1, data[i]]
+                console.log("NEW: " + grade_rates[data[i].instructor][0])
+            } 
+            else{
+                grade_rates[data[i].instructor][0] += percentageATotal 
+                grade_rates[data[i].instructor][1] += passingPercent
+                grade_rates[data[i].instructor][2] += 1
+            }
+            
         }
-        console.log(grade_rates)
+        
+        let grade_rates_array= []
+        
+        for (const [key, value] of Object.entries(grade_rates)) {
+            grade_rates[key][0] /=  grade_rates[key][2];
+            grade_rates[key][1] /= grade_rates[key][2];
+            grade_rates_array.push(grade_rates[key]);
+        }
 
 
         let resultElementhead = document.getElementById("head");
         let resultElementbody = document.getElementById("body");
         
-        let row_head = "<tr class = \"content\"> <th>Ranking</th> <th>Name</th> <th>% Passing</th> <th>% Of As</th> <th>Average GPA</th> <th>Term</th> <th>Year</th></tr>"
+        let row_head = "<tr class = \"content\"> <th>Ranking</th> <th>Name</th> <th>% Passing</th> <th>% Of As</th> <th>Average GPA</th></tr>"
         
         let row_table = ""
+        
+        
         if(type_sort == 'a'){
-            grade_rates.sort(sortFunctionA);
+            grade_rates_array.sort(sortFunctionA);
         }
         else{
-            grade_rates.sort(sortFunctionPassing)
+            grade_rates_array.sort(sortFunctionPassing)
         }
+        console.log(grade_rates_array)
+        for(let row = 0; row < grade_rates_array.length; row++){
+            if (row <=2){
+                row_table += "<tr class = \"content top-3\">"
+            }
+            else{
+                row_table += "<tr class = \"content\">"
+            }
 
-        for(let row = 0; row < grade_rates.length; row++){
-            row_table += "<tr class = \"content\">"
             row_table+="<td>" + String(row+1) + "</td>"
-            row_table+="<td>" + grade_rates[row][2].instructor + "</td>"
-            row_table+="<td>" + (grade_rates[row][1]*100).toFixed(1) + "</td>"
-            row_table+="<td>" + (grade_rates[row][0]*100).toFixed(1) + "</td>"
-            row_table+="<td>" + grade_rates[row][2].averageGPA + "</td>"
-            row_table+="<td>" + grade_rates[row][2].quarter + "</td>"
-            row_table+="<td>" + grade_rates[row][2].year + "</td>"
+            row_table+="<td>" + grade_rates_array[row][3].instructor + "</td>"
+            row_table+="<td>" + (grade_rates_array[row][1]*100).toFixed(1) + "</td>"
+            row_table+="<td>" + (grade_rates_array[row][0]*100).toFixed(1) + "</td>"
+            row_table+="<td>" + grade_rates_array[row][3].averageGPA + "</td>"
             row_table += "</tr>"
         }
         resultElementhead.innerHTML = row_head;
         resultElementbody.innerHTML = row_table;
+    
+        document.getElementById("border-table").style.border = '2px solid black';
     
         function sortFunctionPassing(a, b) {
             if (a[1] === b[1]) {
@@ -82,10 +107,6 @@ form.addEventListener('submit', (event) => {
             }
         }
 
-<<<<<<< HEAD
-        
-=======
->>>>>>> dd9762049a5d8321ab5182b3d607781ee68bdec0
         function sortFunctionA(a, b) {
             if (a[0] === b[0]) {
                 return 0;

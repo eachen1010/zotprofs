@@ -2,20 +2,29 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    padding-top: 60px;
+    padding-bottom: 60px;
+    padding-right: 30px;
+    padding-left: 30px;
 }
 
 .inner-container{
     display: flex;
     flex-direction: row;
     justify-content: center;
+    margin-right: 20px;
+    margin-left: 20px;
+    margin-top: 30px;
+    margin-bottom: 10px;
 }
 
 #logo {
     /* zotproflogo */
     background: url(zotprof.png);
-    height: 6.8%;
-    width: 6.8%;
-    padding: 10px;
+    height: 9%;
+    width: 9%;
+    padding: 8px;
 }
 
 body{
@@ -38,6 +47,7 @@ body{
     height: 11.6%;
     width: 24%;
     background: #EDF2F7;
+    color: #2D3748;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
     gap: 10px;
@@ -47,12 +57,17 @@ body{
 #courseNum {
     width: 40%;
     height: 5.8%;
+    color: #000000;
+    opacity: 50%;
 }
 
 #submit {
     background: #EDF2F7;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 6px;
+    color: #2D3748;
+    margin-bottom: 10px;
+    margin-top: 20px;
 }
 
 .content {
@@ -63,4 +78,37 @@ body{
     width: 15%;
     text-align: left;
     background: #EDF2F7;
+    color: #2D3748;
 }
+input[type = "radio"]{
+    margin: 0 0 0 15px;
+}
+#radio {
+    margin-bottom: 10px;
+    margin-top: 5px;
+    border-color: #2B6CB0;
+    color: #000000;
+    gap: 8px;
+}
+
+#result {
+    border-collapse: separate !important;
+    border-radius: 10px !important;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #EEEEEE;
+    color: #000000;
+    width: 80%;
+}
+
+
+#head {
+    background-color: #2C5282;
+    color: #FFFFFF;
+}
+
+.top-3 {
+    background-color: #C1CAD5;
+    color: black;
+}
+
