@@ -16,8 +16,6 @@ form.addEventListener('submit', (event) => {
 
     const departmentN = encodeURIComponent(departmentName.value);
     const courseN = courseNumber.value;
-    console.log(courseN)
-    console.log(departmentN)
     const baseurl = 'https://api.peterportal.org/rest/v0/grades/raw'
     const resources = "?department=" + departmentN + "&number=" + courseN
     const entireurl = baseurl + resources
@@ -30,7 +28,6 @@ form.addEventListener('submit', (event) => {
     
 
     getUsers().then(data => {
-        console.log(data)
         var grade_rates = {}
         /* Run through the data and sort */
         for(let i = 0; i < data.length; i++){
@@ -44,7 +41,6 @@ form.addEventListener('submit', (event) => {
             if(!(data[i].instructor in grade_rates)){
                 
                 grade_rates[data[i].instructor] = [percentageATotal, passingPercent, 1, data[i]]
-                console.log("NEW: " + grade_rates[data[i].instructor][0])
             } 
             else{
                 grade_rates[data[i].instructor][0] += percentageATotal 
@@ -77,7 +73,6 @@ form.addEventListener('submit', (event) => {
         else{
             grade_rates_array.sort(sortFunctionPassing)
         }
-        console.log(grade_rates_array)
         for(let row = 0; row < grade_rates_array.length; row++){
             if (row <=2){
                 row_table += "<tr class = \"content top-3\">"
